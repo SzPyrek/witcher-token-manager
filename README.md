@@ -11,8 +11,8 @@ Aplikacja zastępuje fizyczne tasowanie i losowanie elementów, przyspieszając 
 
 ## 📱 Funkcje
 
-### 1. 🐺 Generator Wiedźminów (Nowość!)
-Moduł ułatwiający przygotowanie do gry (setup).
+### 1. 🐺 Generator Wiedźminów
+Moduł ułatwiający przygotowanie do gry.
 * **Wybór liczby graczy:** Obsługa od 1 do 6 graczy.
 * **Losowanie Szkół:** Automatyczny i losowy przydział unikalnych szkół wiedźmińskich dla każdego gracza.
 * **Obsługiwane Szkoły:** Wilk, Kot, Żmija, Niedźwiedź, Gryf, Mantikora.
