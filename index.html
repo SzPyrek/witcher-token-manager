@@ -7,28 +7,76 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#1a252f">
+    <meta name="theme-color" content="#0b0d0f">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     
     <title>Witcher Companion</title>
     <style>
+        :root {
+            --bg-dark: #0b0d0f;
+            --panel-bg: rgba(26, 29, 33, 0.95);
+            --gold-main: #d4b46e; /* Wiedźmińskie złoto */
+            --gold-dim: #8f7948;
+            --text-main: #e8e6e3;
+            --text-dim: #9ca3af;
+            --accent-red: #8a2323;
+            --border-color: #3f3f3f;
+        }
+
         body {
-            font-family: 'Times New Roman', Times, serif;
-            background-color: #1a252f;
-            color: #ecf0f1;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-dark);
+            /* Tekstura szumu i winieta */
+            background-image: 
+                radial-gradient(circle at center, transparent 0%, #000000 120%),
+                repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.2) 1px, rgba(0,0,0,0.2) 2px);
+            color: var(--text-main);
             text-align: center;
             padding: 10px;
             margin: 0;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- TYPOGRAFIA --- */
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif; /* Font a'la logo Wiedźmina */
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
+        }
+
+        h1 { 
+            color: var(--gold-main); 
+            margin: 15px 0 5px 0; 
+            font-size: 1.8rem; 
+            border-bottom: 1px solid transparent;
+            display: inline-block;
+            background: linear-gradient(to right, transparent, rgba(212, 180, 110, 0.1), transparent);
+            padding-bottom: 10px;
+            width: 100%;
+        }
+        
+        .subtitle { 
+            font-family: 'Cinzel', serif;
+            color: var(--text-dim); 
+            font-size: 0.8rem; 
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         /* --- MENU GŁÓWNE --- */
-        .app-section { display: none; /* Domyślnie ukryte */ animation: fadeIn 0.3s; }
+        .app-section { display: none; animation: fadeIn 0.4s ease-out; }
         .active-section { display: block; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .main-menu-container {
@@ -36,232 +84,335 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 90vh;
-            gap: 20px;
+            min-height: 85vh;
+            gap: 25px;
             padding-top: 20px;
         }
 
         .menu-btn {
-            background-color: #2c3e50;
-            color: #f1c40f;
-            border: 2px solid #f1c40f;
-            padding: 20px;
-            width: 80%;
-            max-width: 300px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            background: linear-gradient(145deg, #1f2226, #16181b);
+            color: var(--gold-main);
+            border: 1px solid var(--gold-dim);
+            padding: 25px 20px;
+            width: 85%;
+            max-width: 320px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
             text-transform: uppercase;
-            border-radius: 10px;
+            letter-spacing: 1px;
+            position: relative;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: all 0.2s;
-            font-family: 'Times New Roman', serif;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            transition: all 0.3s;
+            overflow: hidden;
         }
-        .menu-btn:active { transform: scale(0.95); background-color: #f1c40f; color: #2c3e50; }
+        
+        /* Ozdobny pasek po lewej stronie przycisku */
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background-color: var(--gold-main);
+            transition: width 0.3s;
+        }
+        
+        .menu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 180, 110, 0.15);
+            background: #25292e;
+            color: #fff;
+        }
+        
+        .menu-btn:active { transform: scale(0.97); }
 
-        /* --- WSPÓLNE STYLE --- */
-        h1 { color: #f1c40f; margin: 10px 0 5px 0; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px; }
-        .subtitle { margin-top: 0; color: #95a5a6; font-size: 0.85rem; margin-bottom: 20px;}
-
+        /* --- PRZYCISKI I NAV --- */
         .back-btn {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: none;
-            border: 1px solid #7f8c8d;
-            color: #bdc3c7;
-            padding: 5px 10px;
-            border-radius: 5px;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--text-dim);
+            color: var(--text-dim);
+            padding: 6px 12px;
             cursor: pointer;
+            font-family: 'Cinzel', serif;
             font-size: 0.8rem;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+        .back-btn:hover { border-color: var(--gold-main); color: var(--gold-main); }
+
+        button.draw-btn {
+            background: linear-gradient(to bottom, #a05025, #7a3612); /* Skórzany/rdzawy */
+            color: #fff;
+            border: 1px solid #c97a48;
+            border-bottom-color: #52240b;
+            padding: 14px 0;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-shadow: 1px 1px 0 #000;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
+            margin-top: 5px;
+        }
+        button.draw-btn:active { 
+            background: #7a3612; 
+            transform: translateY(1px); 
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        /* --- SEKCJA WIEDŹMINÓW --- */
+        /* --- PANELE I KONTENERY (Styl Pergaminu/Kamienia) --- */
+        .witcher-setup, .panel, .zone-row {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        
+        /* Ozdobne rogi dla paneli */
+        .witcher-setup::after, .zone-row::after {
+            content: "";
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            border: 1px solid transparent;
+            pointer-events: none;
+            /* Można dodać tu grafikę rogów w przyszłości */
+        }
+
         .witcher-setup {
-            background-color: #2c3e50;
-            padding: 20px;
-            border-radius: 12px;
+            padding: 25px;
             max-width: 500px;
             margin: 20px auto;
-            border: 1px solid #34495e;
         }
-        .player-count-label { display: block; margin-bottom: 10px; color: #bdc3c7; }
-        
-        .count-btn-group { display: flex; justify-content: center; gap: 5px; margin-bottom: 20px; }
-        .count-btn {
-            background-color: #34495e;
-            border: 1px solid #7f8c8d;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        .count-btn.selected { background-color: #f1c40f; color: #2c3e50; border-color: #f1c40f; font-weight: bold; }
 
-        /* STYLE DRAFTU (WYBORU) */
-        .draft-area {
-            display: none; /* Ukryte do momentu startu */
-            margin-top: 20px;
-        }
-        .draft-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .draft-card {
-            background-color: #34495e;
-            border: 2px solid #7f8c8d;
-            border-radius: 8px;
-            padding: 15px;
+        /* --- WYBÓR LICZBY GRACZY --- */
+        .player-count-label { display: block; margin-bottom: 12px; color: var(--gold-main); font-family: 'Cinzel', serif; }
+        .count-btn-group { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; }
+        .count-btn {
+            background-color: #0f1114;
+            border: 1px solid #444;
+            color: #666;
+            width: 45px;
+            height: 45px;
+            border-radius: 2px; /* Bardziej kwadratowe, jak kamienie runiczne */
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: 0.2s;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+        }
+        .count-btn.selected { 
+            background-color: var(--gold-main); 
+            color: #000; 
+            border-color: #fff; 
+            box-shadow: 0 0 10px rgba(212, 180, 110, 0.4);
+        }
+
+        /* --- WYBÓR WIEDŹMINÓW --- */
+        .draft-area { display: none; margin-top: 20px; }
+        .draft-options { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+        
+        .draft-card {
+            background: linear-gradient(to right, #2c3036, #22252a);
+            border: 1px solid #4a4a4a;
+            padding: 20px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
         }
-        .draft-card:hover { transform: scale(1.02); border-color: #f1c40f; }
-        .draft-card:active { transform: scale(0.98); background-color: #2c3e50; }
+        .draft-card:hover { border-color: var(--gold-main); }
+        .draft-card:active { transform: scale(0.98); }
         
         .draft-school-info {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ecf0f1;
-        }
-        .btn-select {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .witcher-result-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
+            gap: 15px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            z-index: 1;
         }
         
+        .btn-select {
+            background-color: #2f5c35; /* Zgaszona zieleń */
+            color: #d1e7dd;
+            border: 1px solid #4a8053;
+            padding: 8px 16px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Wyniki draftu */
+        .witcher-result-list { list-style: none; padding: 0; margin-top: 20px; }
         .witcher-card {
-            background-color: #34495e;
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 8px;
+            background-color: #22252a;
+            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-left: 4px solid #555;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            border-left: 5px solid #7f8c8d;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
             animation: slideIn 0.3s ease-out forwards;
             opacity: 0;
-            gap: 8px;
         }
-        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } from { opacity: 0; transform: translateX(-10px); } }
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } from { opacity: 0; transform: translateX(-15px); } }
 
-        .witcher-header {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            align-items: center;
-        }
-
+        .witcher-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .p-name { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .w-school { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold-main); }
+        
         .resource-group {
-            display: flex;
-            gap: 20px;
-            font-size: 0.95rem;
-            color: #f1c40f;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            width: 100%;
-            padding-top: 8px;
+            display: flex; gap: 20px; font-size: 0.9rem; color: #ddd; padding-top: 5px;
         }
 
-        .p-name { font-size: 0.9rem; color: #bdc3c7; }
-        .w-school { font-size: 1.2rem; font-weight: bold; color: #ecf0f1; }
+        /* KOLORY SZKÓŁ (BEZ ZMIAN) */
+        .school-wilk { border-color: #8d6e63; } .school-wilk .w-school { color: #d7ccc8; }
+        .school-kot { border-color: #3867d6; } .school-kot .w-school { color: #a5b1de; }
+        .school-zmija { border-color: #27ae60; } .school-zmija .w-school { color: #a3e4b3; }
+        .school-gryf { border-color: #f1c40f; } .school-gryf .w-school { color: #f9e79f; }
+        .school-niedzwiedz { border-color: #c0392b; } .school-niedzwiedz .w-school { color: #e6b0aa; }
+        .school-mantikora { border-color: #e67e22; } .school-mantikora .w-school { color: #edbb99; }
 
-        /* Kolory szkół */
-        .school-wilk { border-color: #8d6e63; color: #d7ccc8; }
-        .school-kot { border-color: #3867d6; color: #a5b1de; }
-        .school-zmija { border-color: #27ae60; color: #a3e4b3; }
-        .school-gryf { border-color: #f1c40f; color: #f9e79f; }
-        .school-niedzwiedz { border-color: #c0392b; color: #e6b0aa; }
-        .school-mantikora { border-color: #e67e22; color: #edbb99; }
+        /* --- STREFY EKSPLORACJI --- */
+        .zones-container { display: flex; flex-direction: column; gap: 30px; max-width: 600px; margin: 30px auto 50px auto; }
+        .zone-row { padding: 15px; background: rgba(20, 20, 20, 0.8); border: 1px solid #333; }
+        
+        .zone-title { 
+            margin: 0 0 15px 0; 
+            font-size: 1.3rem; 
+            border-bottom: 1px solid #333; 
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-        /* --- SEKCJA ŻETONÓW --- */
-        .zones-container { display: flex; flex-direction: column; gap: 25px; max-width: 600px; margin: 40px auto 0 auto; }
-        .zone-row { border: 1px solid #34495e; border-radius: 12px; padding: 12px; background-color: #2c3e50; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .zone-title { margin: 0 0 10px 0; font-size: 1.2rem; text-transform: uppercase; border-bottom: 2px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
-        .title-gory { color: #e74c3c; }
-        .title-las { color: #2ecc71; }
-        .title-woda { color: #3498db; }
-        .panels-wrapper { display: flex; flex-wrap: wrap; gap: 10px; }
-        .panel { flex: 1 1 100%; background-color: #34495e; border-radius: 8px; padding: 12px; box-sizing: border-box; }
+        .title-gory { color: #c0392b; text-shadow: 0 0 5px rgba(192, 57, 43, 0.3); }
+        .title-las { color: #5c8a63; text-shadow: 0 0 5px rgba(92, 138, 99, 0.3); }
+        .title-woda { color: #4f7cac; text-shadow: 0 0 5px rgba(79, 124, 172, 0.3); }
+
+        .panels-wrapper { display: flex; flex-wrap: wrap; gap: 15px; }
+        .panel { 
+            flex: 1 1 100%; 
+            background: rgba(30, 30, 30, 0.6); 
+            padding: 15px; 
+            border: 1px solid rgba(255,255,255,0.05);
+        }
         @media (min-width: 500px) { .panel { flex: 1; } }
-        .panel.weakness-panel { background-color: #303841; border: 1px dashed #546e7a; }
-        .panel h3 { margin: 0 0 8px 0; font-size: 0.9rem; color: #bdc3c7; }
-        .result-box { background-color: #22303d; border-radius: 6px; padding: 10px 0; margin-bottom: 10px; border: 1px solid #465f75; min-height: 70px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .result { font-size: 36px; font-weight: bold; color: #f1c40f; line-height: 1; padding: 0 5px; word-wrap: break-word;}
-        .weakness-panel .result { color: #9b59b6; font-family: 'Times New Roman', serif; font-size: 42px; }
-        .status { font-size: 11px; color: #7f8c8d; margin-top: 5px; }
-        button.draw-btn { background-color: #e67e22; color: white; border: none; padding: 14px 0; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; width: 100%; touch-action: manipulation; }
-        button.draw-btn:active { transform: scale(0.98); background-color: #d35400; }
-        .weakness-panel button.draw-btn { background-color: #8e44ad; }
-        .weakness-panel button.draw-btn:active { background-color: #732d91; }
-        .discard-section { margin-top: 12px; border-top: 1px solid #465f75; padding-top: 8px; min-height: 30px; }
-        .discard-label { font-size: 0.7rem; color: #7f8c8d; display: block; margin-bottom: 5px; }
-        .discard-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
-        .token { background-color: #95a5a6; color: #2c3e50; font-weight: bold; padding: 6px 12px; border-radius: 4px; font-size: 14px; cursor: pointer; user-select: none; border: 1px solid #7f8c8d; }
-        .weakness-panel .token { background-color: #574b90; color: #ecf0f1; font-family: 'Times New Roman', serif; border: 1px solid #303841; }
 
-        /* --- STYLE DLA POTWORÓW --- */
-        .title-lvl1 { color: #ffab91; }
-        .title-lvl2 { color: #ef5350; }
-        .title-lvl3 { color: #c62828; }
+        .panel.weakness-panel { background: rgba(30, 20, 35, 0.4); border: 1px solid rgba(100, 50, 100, 0.2); }
+        .panel h3 { margin: 0 0 10px 0; font-size: 0.85rem; color: #777; text-transform: uppercase; letter-spacing: 1px; }
 
-        .btn-lvl1 { background-color: #ffab91; color: #2c3e50; }
-        .btn-lvl1:active { background-color: #e69a8d; }
-        .label-lvl1 { color: #ffab91; }
+        .result-box {
+            background-color: #000;
+            border: 1px solid #333;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            border-radius: 2px;
+            padding: 15px 0;
+            margin-bottom: 12px;
+            min-height: 80px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .result { 
+            font-family: 'Cinzel', serif; 
+            font-size: 3rem; 
+            color: var(--gold-main); 
+            text-shadow: 0 0 10px rgba(212, 180, 110, 0.5);
+        }
+        .weakness-panel .result { color: #b39ddb; text-shadow: 0 0 10px rgba(179, 157, 219, 0.4); }
+        .status { font-size: 0.7rem; color: #555; margin-top: 5px; text-transform: uppercase; }
 
-        .btn-lvl2 { background-color: #ef5350; color: #ecf0f1; }
-        .btn-lvl2:active { background-color: #d32f2f; }
-        .label-lvl2 { color: #ef5350; }
+        /* Style przycisków słabości (fiolet/magia) */
+        .weakness-panel button.draw-btn {
+            background: linear-gradient(to bottom, #5e4b8b, #3d2c5e);
+            border-color: #7b62b3;
+            border-bottom-color: #2a1e42;
+        }
+        .weakness-panel button.draw-btn:active { background: #3d2c5e; }
 
-        .btn-lvl3 { background-color: #c62828; color: #ecf0f1; }
-        .btn-lvl3:active { background-color: #b71c1c; }
-        .label-lvl3 { color: #c62828; }
+        /* ODRZUCONE / ŻETONY */
+        .discard-section { margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; }
+        .discard-label { font-size: 0.7rem; color: #666; display: block; margin-bottom: 8px; font-family: 'Cinzel', serif; }
+        .discard-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+
+        .token {
+            background: linear-gradient(135deg, #4a5056, #2e3338);
+            color: #ddd;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            user-select: none;
+            border-top: 1px solid #6c757d;
+            border-bottom: 1px solid #1a1d20;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            transition: transform 0.1s;
+        }
+        .token:active { transform: translateY(1px); }
+
+        .weakness-panel .token {
+            background: linear-gradient(135deg, #4f4269, #322a42);
+            border-top: 1px solid #736296;
+            border-bottom: 1px solid #1e1929;
+            color: #d1c4e9;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- BESTIARIUSZ --- */
+        .title-lvl1 { color: #d98880; }
+        .title-lvl2 { color: #c0392b; }
+        .title-lvl3 { color: #922b21; }
+
+        /* Przyciski potworów (bardziej agresywne kolory) */
+        .btn-lvl1 { background: linear-gradient(to bottom, #c47c72, #944e45); border-color: #e6b0aa; }
+        .btn-lvl2 { background: linear-gradient(to bottom, #a93226, #751b12); border-color: #cd6155; }
+        .btn-lvl3 { background: linear-gradient(to bottom, #641e16, #3b100b); border-color: #922b21; color: #ffcccc; }
 
         .monster-token {
-            background-color: #34495e; 
-            color: #ecf0f1; 
-            border: 1px solid #7f8c8d;
-            padding: 6px 12px; 
-            border-radius: 4px; 
-            font-size: 13px;
-            cursor: default;
-            user-select: none;
-            opacity: 0.7;
+            background: #212529;
+            color: #ccc;
+            border: 1px solid #444;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
         .reset-monsters-btn {
-            background-color: #c0392b;
-            color: white;
-            border: none;
+            background-color: transparent;
+            color: #8a2323;
+            border: 2px solid #8a2323;
             padding: 15px;
             width: 100%;
             max-width: 400px;
-            margin-top: 30px;
-            margin-bottom: 50px;
-            border-radius: 8px;
+            margin-top: 40px;
+            margin-bottom: 60px;
+            font-family: 'Cinzel', serif;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
+            transition: 0.3s;
         }
-        .reset-monsters-btn:active { background-color: #a93226; }
+        .reset-monsters-btn:hover { background-color: #8a2323; color: #fff; }
 
     </style>
 </head>
@@ -269,60 +420,62 @@
 
     <div id="view-menu" class="app-section active-section">
         <div class="main-menu-container">
-            <h1>Wiedźmin: Stary Świat<br>
-                <span style="font-size: 0.5em; color: #95a5a6; font-weight: normal; letter-spacing: 0;">
-                    Nieoficjalny asystent rozgrywki
-                </span>
-            </h1>
+            <div>
+                <h1>Wiedźmin: Stary Świat</h1>
+                <div class="subtitle">Nieoficjalny asystent rozgrywki</div>
+            </div>
             
             <button class="menu-btn" onclick="switchView('view-witchers')">
-                🐺 Wiedźmini<br><span style="font-size: 0.6em; font-weight: normal;">Losowanie Szkół</span>
+                🐺 Wiedźmini<br>
+                <span style="font-size: 0.6em; font-weight: normal; font-family: 'Lato', sans-serif; color: #888; text-transform: none;">Losowanie Szkół</span>
             </button>
             
             <button class="menu-btn" onclick="switchView('view-tokens')">
-                🏔️ Eksploracja<br><span style="font-size: 0.6em; font-weight: normal;">Żetony Obszarów i Słabości</span>
+                🏔️ Eksploracja<br>
+                <span style="font-size: 0.6em; font-weight: normal; font-family: 'Lato', sans-serif; color: #888; text-transform: none;">Żetony Obszarów i Słabości</span>
             </button>
             
             <button class="menu-btn" onclick="switchView('view-monsters')">
-                🐲 Bestiariusz<br><span style="font-size: 0.6em; font-weight: normal;">Losowanie Potworów</span>
+                🐲 Bestiariusz<br>
+                <span style="font-size: 0.6em; font-weight: normal; font-family: 'Lato', sans-serif; color: #888; text-transform: none;">Losowanie Potworów</span>
             </button>
         </div>
     </div>
 
     <div id="view-witchers" class="app-section">
         <button class="back-btn" onclick="switchView('view-menu')">⬅ Menu</button>
-        <h1>Wybór Szkoły</h1>
-        <p class="subtitle">Wybierz liczbę graczy i rozpocznij losowanie</p>
+        <div style="height: 40px;"></div> <h2>Wybór Szkoły</h2>
+        <p class="subtitle">Wybierz liczbę graczy i rozpocznij</p>
 
         <div id="witcher-setup-phase" class="witcher-setup">
             <label class="player-count-label">Liczba graczy:</label>
             <div class="count-btn-group" id="player-buttons"></div>
-            <button class="draw-btn" onclick="startDraft()">ROZPOCZNIJ WYBÓR</button>
+            <button class="draw-btn" onclick="startDraft()">Rozpocznij Wybór</button>
         </div>
 
         <div id="witcher-draft-phase" class="draft-area">
-            <h2 id="draft-player-title" style="color: #f1c40f; margin-bottom: 5px;">GRACZ 1</h2>
-            <p style="font-size: 0.9rem; color: #bdc3c7;">Wybierz jedną ze szkół:</p>
+            <h2 id="draft-player-title" style="color: var(--gold-main); margin-bottom: 5px;">GRACZ 1</h2>
+            <p style="font-size: 0.9rem; color: #888; margin-bottom: 20px;">Wybierz jedną ze szkół:</p>
             
-            <div id="draft-options-container" class="draft-options">
-                </div>
+            <div id="draft-options-container" class="draft-options"></div>
         </div>
 
         <div id="witcher-results-phase" style="display:none;">
-            <h2 style="color: #27ae60;">WYNIKI</h2>
+            <h2 style="color: #4a7a53;">Zakończono</h2>
             <ul id="witcher-results" class="witcher-result-list"></ul>
-            <button class="draw-btn" onclick="resetDraft()" style="margin-top: 20px; background-color: #34495e;">🔄 Od nowa</button>
+            <button class="draw-btn" onclick="resetDraft()" style="margin-top: 20px; background: #222; border-color: #444;">🔄 Nowe Rozdanie</button>
         </div>
     </div>
 
     <div id="view-tokens" class="app-section">
         <button class="back-btn" onclick="switchView('view-menu')">⬅ Menu</button>
-        <h1>Eksploracja</h1>
-        <p class="subtitle">Generator Żetonów Terenów i Słabości</p>
+        <div style="height: 40px;"></div>
+        <h2>Eksploracja</h2>
+        <p class="subtitle">Generator Żetonów</p>
 
         <div class="zones-container">
             <div class="zone-row">
-                <h2 class="zone-title title-gory">🏔️ Obszar Górski</h2>
+                <div class="zone-title title-gory">🏔️ Obszar Górski</div>
                 <div class="panels-wrapper">
                     <div class="panel">
                         <h3>Żeton Obszaru</h3>
@@ -330,21 +483,21 @@
                             <div id="res-gory" class="result">-</div>
                             <div id="count-gory" class="status">...</div>
                         </div>
-                        <button class="draw-btn" onclick="draw('gory')">LOSUJ TEREN</button>
+                        <button class="draw-btn" onclick="draw('gory')">Losuj</button>
                         <div class="discard-section">
-                            <span class="discard-label">Odrzucone (dotknij by zwrócić):</span>
+                            <span class="discard-label">Odrzucone:</span>
                             <div id="discard-gory" class="discard-container"></div>
                         </div>
                     </div>
                     <div class="panel weakness-panel">
-                        <h3>☠️ Żeton Słabości</h3>
+                        <h3>Żeton Słabości</h3>
                         <div class="result-box">
                             <div id="res-gory_weak" class="result">-</div>
                             <div id="count-gory_weak" class="status">...</div>
                         </div>
-                        <button class="draw-btn" onclick="draw('gory_weak')">LOSUJ SŁABOŚĆ</button>
+                        <button class="draw-btn" onclick="draw('gory_weak')">Losuj</button>
                         <div class="discard-section">
-                            <span class="discard-label">Użyte (dotknij by zwrócić):</span>
+                            <span class="discard-label">Użyte:</span>
                             <div id="discard-gory_weak" class="discard-container"></div>
                         </div>
                     </div>
@@ -352,7 +505,7 @@
             </div>
 
             <div class="zone-row">
-                <h2 class="zone-title title-las">🌲 Obszar Leśny</h2>
+                <div class="zone-title title-las">🌲 Obszar Leśny</div>
                 <div class="panels-wrapper">
                     <div class="panel">
                         <h3>Żeton Obszaru</h3>
@@ -360,21 +513,21 @@
                             <div id="res-las" class="result">-</div>
                             <div id="count-las" class="status">...</div>
                         </div>
-                        <button class="draw-btn" onclick="draw('las')">LOSUJ TEREN</button>
+                        <button class="draw-btn" onclick="draw('las')">Losuj</button>
                         <div class="discard-section">
-                            <span class="discard-label">Odrzucone (dotknij by zwrócić):</span>
+                            <span class="discard-label">Odrzucone:</span>
                             <div id="discard-las" class="discard-container"></div>
                         </div>
                     </div>
                     <div class="panel weakness-panel">
-                        <h3>☠️ Żeton Słabości</h3>
+                        <h3>Żeton Słabości</h3>
                         <div class="result-box">
                             <div id="res-las_weak" class="result">-</div>
                             <div id="count-las_weak" class="status">...</div>
                         </div>
-                        <button class="draw-btn" onclick="draw('las_weak')">LOSUJ SŁABOŚĆ</button>
+                        <button class="draw-btn" onclick="draw('las_weak')">Losuj</button>
                         <div class="discard-section">
-                            <span class="discard-label">Użyte (dotknij by zwrócić):</span>
+                            <span class="discard-label">Użyte:</span>
                             <div id="discard-las_weak" class="discard-container"></div>
                         </div>
                     </div>
@@ -382,7 +535,7 @@
             </div>
 
             <div class="zone-row">
-                <h2 class="zone-title title-woda">💧 Obszar Wodny</h2>
+                <div class="zone-title title-woda">💧 Obszar Wodny</div>
                 <div class="panels-wrapper">
                     <div class="panel">
                         <h3>Żeton Obszaru</h3>
@@ -390,21 +543,21 @@
                             <div id="res-woda" class="result">-</div>
                             <div id="count-woda" class="status">...</div>
                         </div>
-                        <button class="draw-btn" onclick="draw('woda')">LOSUJ TEREN</button>
+                        <button class="draw-btn" onclick="draw('woda')">Losuj</button>
                         <div class="discard-section">
-                            <span class="discard-label">Odrzucone (dotknij by zwrócić):</span>
+                            <span class="discard-label">Odrzucone:</span>
                             <div id="discard-woda" class="discard-container"></div>
                         </div>
                     </div>
                     <div class="panel weakness-panel">
-                        <h3>☠️ Żeton Słabości</h3>
+                        <h3>Żeton Słabości</h3>
                         <div class="result-box">
                             <div id="res-woda_weak" class="result">-</div>
                             <div id="count-woda_weak" class="status">...</div>
                         </div>
-                        <button class="draw-btn" onclick="draw('woda_weak')">LOSUJ SŁABOŚĆ</button>
+                        <button class="draw-btn" onclick="draw('woda_weak')">Losuj</button>
                         <div class="discard-section">
-                            <span class="discard-label">Użyte (dotknij by zwrócić):</span>
+                            <span class="discard-label">Użyte:</span>
                             <div id="discard-woda_weak" class="discard-container"></div>
                         </div>
                     </div>
@@ -415,18 +568,19 @@
 
     <div id="view-monsters" class="app-section">
         <button class="back-btn" onclick="switchView('view-menu')">⬅ Menu</button>
-        <h1>Bestiariusz</h1>
-        <p class="subtitle">Losowanie Potworów wg Poziomów</p>
+        <div style="height: 40px;"></div>
+        <h2>Bestiariusz</h2>
+        <p class="subtitle">Generator Potworów</p>
 
         <div class="zones-container">
             <div class="zone-row">
-                <h2 class="zone-title title-lvl1">Potwór Poziom I</h2>
+                <h2 class="zone-title title-lvl1" style="border:none;">Poziom I</h2>
                 <div class="panel">
                     <div class="result-box">
-                        <div id="res-m_lvl1" class="result">-</div>
+                        <div id="res-m_lvl1" class="result" style="font-size: 2rem;">-</div>
                         <div id="count-m_lvl1" class="status">...</div>
                     </div>
-                    <button class="draw-btn btn-lvl1" onclick="drawMonster('lvl1')">LOSUJ POTWORA I</button>
+                    <button class="draw-btn btn-lvl1" onclick="drawMonster('lvl1')">Losuj Potwora I</button>
                     <div class="discard-section">
                         <span class="discard-label label-lvl1">Wylosowane:</span>
                         <div id="discard-m_lvl1" class="discard-container"></div>
@@ -435,13 +589,13 @@
             </div>
 
             <div class="zone-row">
-                <h2 class="zone-title title-lvl2">Potwór Poziom II</h2>
+                <h2 class="zone-title title-lvl2" style="border:none;">Poziom II</h2>
                 <div class="panel">
                     <div class="result-box">
-                        <div id="res-m_lvl2" class="result">-</div>
+                        <div id="res-m_lvl2" class="result" style="font-size: 2rem;">-</div>
                         <div id="count-m_lvl2" class="status">...</div>
                     </div>
-                    <button class="draw-btn btn-lvl2" onclick="drawMonster('lvl2')">LOSUJ POTWORA II</button>
+                    <button class="draw-btn btn-lvl2" onclick="drawMonster('lvl2')">Losuj Potwora II</button>
                     <div class="discard-section">
                         <span class="discard-label label-lvl2">Wylosowane:</span>
                         <div id="discard-m_lvl2" class="discard-container"></div>
@@ -450,13 +604,13 @@
             </div>
 
             <div class="zone-row">
-                <h2 class="zone-title title-lvl3">Potwór Poziom III</h2>
+                <h2 class="zone-title title-lvl3" style="border:none;">Poziom III</h2>
                 <div class="panel">
                     <div class="result-box">
-                        <div id="res-m_lvl3" class="result">-</div>
+                        <div id="res-m_lvl3" class="result" style="font-size: 2rem;">-</div>
                         <div id="count-m_lvl3" class="status">...</div>
                     </div>
-                    <button class="draw-btn btn-lvl3" onclick="drawMonster('lvl3')">LOSUJ POTWORA III</button>
+                    <button class="draw-btn btn-lvl3" onclick="drawMonster('lvl3')">Losuj Potwora III</button>
                     <div class="discard-section">
                         <span class="discard-label label-lvl3">Wylosowane:</span>
                         <div id="discard-m_lvl3" class="discard-container"></div>
@@ -464,7 +618,7 @@
                 </div>
             </div>
 
-            <button class="reset-monsters-btn" onclick="resetMonsters()">⚠️ Resetuj Wszystkie Potwory</button>
+            <button class="reset-monsters-btn" onclick="resetMonsters()">⚠️ Resetuj Bestiariusz</button>
         </div>
     </div>
 
@@ -486,7 +640,6 @@
             { name: "Mantikory", icon: "🦁", style: "school-mantikora", id: 5 }
         ];
 
-        // ZASOBY STARTOWE (Zgodnie z instrukcją)
         const startingResources = {
             1: [{ cards: 3, gold: 2 }],
             2: [{ cards: 3, gold: 2 }, { cards: 5, gold: 4 }],
@@ -496,15 +649,12 @@
         };
 
         let selectedPlayerCount = 1;
-        
-        // Zmienne do obsługi Draftu
         let draftPool = [];
         let draftCurrentPlayer = 0;
         let draftResults = [];
 
         function initWitcherButtons() {
             const container = document.getElementById('player-buttons');
-            // Zmiana: Limit do 5 graczy (bo 6. gracz to homebrew/dodatki)
             for (let i = 1; i <= 5; i++) {
                 const btn = document.createElement('button');
                 btn.className = `count-btn ${i === 1 ? 'selected' : ''}`;
@@ -518,48 +668,30 @@
             }
         }
 
-        // 1. Rozpoczęcie Draftu
         function startDraft() {
-            // Przygotuj pulę (kopię wszystkich szkół)
             draftPool = [...witcherSchools];
             draftResults = [];
             draftCurrentPlayer = 1;
-
-            // Ukryj setup, pokaż obszar draftu
             document.getElementById('witcher-setup-phase').style.display = 'none';
             document.getElementById('witcher-results-phase').style.display = 'none';
             document.getElementById('witcher-draft-phase').style.display = 'block';
-
             showDraftOptions();
         }
 
-        // 2. Wyświetlenie 2 opcji dla gracza
         function showDraftOptions() {
             document.getElementById('draft-player-title').innerText = `GRACZ ${draftCurrentPlayer}`;
             const container = document.getElementById('draft-options-container');
             container.innerHTML = "";
-
-            // Jeśli w puli zostało mniej niż 2 karty (np. przy 5 graczach), weź to co jest
-            // Przy 5 graczach i 6 szkołach:
-            // G1: 6 dostępnych -> bierze 2, oddaje 1 (zostaje 5)
-            // G2: 5 dostępnych -> bierze 2, oddaje 1 (zostaje 4)
-            // G3: 4 dostępnych -> bierze 2, oddaje 1 (zostaje 3)
-            // G4: 3 dostępnych -> bierze 2, oddaje 1 (zostaje 2)
-            // G5: 2 dostępnych -> bierze 2, oddaje 1 (zostaje 1)
-            // Zawsze starczy!
             
-            // Losujemy 2 indeksy z obecnej puli
             const idx1 = Math.floor(Math.random() * draftPool.length);
             let idx2 = Math.floor(Math.random() * draftPool.length);
             while (idx1 === idx2 && draftPool.length > 1) {
                 idx2 = Math.floor(Math.random() * draftPool.length);
             }
             
-            // Pobieramy obiekty (jeśli tylko 1 został, to tablica ma 1 element)
             const option1 = draftPool[idx1];
             const option2 = draftPool.length > 1 ? draftPool[idx2] : null;
 
-            // Renderowanie przycisków
             createDraftButton(container, option1);
             if (option2) createDraftButton(container, option2);
         }
@@ -568,26 +700,19 @@
             const div = document.createElement('div');
             div.className = `draft-card ${school.style}`;
             div.onclick = () => selectSchool(school);
-            
             div.innerHTML = `
                 <div class="draft-school-info">
-                    <span>${school.icon}</span>
-                    <span>${school.name}</span>
+                    <span style="font-size: 1.5em;">${school.icon}</span>
+                    <span>Szkoła ${school.name}</span>
                 </div>
-                <button class="btn-select">WYBIERAM</button>
+                <button class="btn-select">Wybierz</button>
             `;
             container.appendChild(div);
         }
 
-        // 3. Wybór szkoły przez gracza
         function selectSchool(selectedSchool) {
-            // Dodaj do wyników
             draftResults.push(selectedSchool);
-
-            // Usuń wybraną szkołę z puli (druga szkoła wraca do puli automatycznie, bo jej nie usuwamy)
             draftPool = draftPool.filter(s => s.id !== selectedSchool.id);
-
-            // Przejdź do nast. gracza lub zakończ
             if (draftCurrentPlayer < selectedPlayerCount) {
                 draftCurrentPlayer++;
                 showDraftOptions();
@@ -596,23 +721,18 @@
             }
         }
 
-        // 4. Zakończenie i wyświetlenie wyników
         function finishDraft() {
             document.getElementById('witcher-draft-phase').style.display = 'none';
             document.getElementById('witcher-results-phase').style.display = 'block';
-            
             const list = document.getElementById('witcher-results');
             list.innerHTML = "";
-            
             const currentResTable = startingResources[selectedPlayerCount] || startingResources[1];
 
-            // Generowanie listy wyników
             draftResults.forEach((witcher, index) => {
                 const res = currentResTable[index];
                 const li = document.createElement('li');
                 li.className = `witcher-card ${witcher.style}`;
                 li.style.animationDelay = `${index * 0.1}s`;
-                
                 li.innerHTML = `
                     <div class="witcher-header">
                         <span class="p-name">GRACZ ${index + 1}</span>
@@ -632,7 +752,7 @@
             document.getElementById('witcher-setup-phase').style.display = 'block';
         }
 
-        // === LOGIKA ŻETONÓW (TERENY) ===
+        // === LOGIKA ŻETONÓW ===
         const initialData = {
             gory: [2, 3, 9, 11, 13, 18, 19],
             las: [6, 7, 8, 10, 16, 17, 21],
@@ -659,7 +779,7 @@
         function draw(type) {
             const currentObj = state[type];
             if (currentObj.pool.length === 0) {
-                alert("Pula pusta! Przywróć żetony.");
+                alert("Pula pusta! Przywróć żetony dotykając ich w sekcji odrzuconych.");
                 return;
             }
             const randomIndex = Math.floor(Math.random() * currentObj.pool.length);
@@ -721,10 +841,7 @@
             }
             const randomIndex = Math.floor(Math.random() * currentObj.pool.length);
             const drawnItem = currentObj.pool.splice(randomIndex, 1)[0];
-            
-            // Dodajemy na początek listy
             currentObj.used.unshift(drawnItem);
-            
             document.getElementById(`res-m_${level}`).innerText = drawnItem;
             updateMonsterUI(level);
         }
@@ -743,12 +860,11 @@
         }
 
         function resetMonsters() {
-            if (confirm("Czy na pewno chcesz zresetować wszystkie potwory do pełnej puli? (Nowa gra)")) {
+            if (confirm("Zresetować wszystkie potwory?")) {
                 initMonsters();
                 document.getElementById('res-m_lvl1').innerText = "-";
                 document.getElementById('res-m_lvl2').innerText = "-";
                 document.getElementById('res-m_lvl3').innerText = "-";
-                alert("Bestiariusz zresetowany!");
             }
         }
 
